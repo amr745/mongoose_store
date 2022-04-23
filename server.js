@@ -1,6 +1,6 @@
 // Dependencies
 const express = require("express")
-const Store = require("./models/store.js")
+const Product = require("./models/product.js")
 const app = express()
 require("dotenv").config()
 const mongoose = require("mongoose")
@@ -16,13 +16,22 @@ mongoose.connect(process.env.DATABASE_URL, {
 })
 
 // Routes / Controllers
+// Index
+app.get("/products", (req, res) => {
+    Product.find({}, (error, allProducts) => {
+        res.render("index.ejs", {
+            products: allProducts,
+        })
+    })
+})
+
 // New
-app.get("/store/new", (req, res) => {
+app.get("/products/new", (req, res) => {
     res.render("new.ejs")
 })
 
 // Create
-app.post("/store", (req, res) => {
+app.post("/products", (req, res) => {
     // if (req.body.completed === "on") {
     //     //if checked, req.body.completed is set to 'on'
     //     req.body.completed = true
@@ -30,8 +39,8 @@ app.post("/store", (req, res) => {
     //     //if not checked, req.body.completed is undefined
     //     req.body.completed = false
     //   }
-    Store.create(req.body, (error, createdStore) => {
-        res.send(createdStore)
+    Product.create(req.body, (error, createdProduct) => {
+        res.redirect("/products")
     })
 })
 
