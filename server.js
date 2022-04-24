@@ -1,5 +1,6 @@
 // Dependencies
 const express = require("express")
+const methodOverride = require("method-override")
 const mongoose = require("mongoose")
 const Product = require("./models/product")
 const app = express()
@@ -8,6 +9,8 @@ require("dotenv").config()
 // Middleware
 // Body parser middleware: give us access to req.body
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride("_method"))
+
 
 // Routes / Controllers
 // Seed
@@ -36,6 +39,13 @@ app.get("/products/new", (req, res) => {
     res.render("new.ejs")
 })
 
+// Delete
+app.delete("/products/:id", (req, res) => {
+    Product.findByIdAndRemove(req.params.id, (err, data) => {
+      res.redirect("/products")
+    })
+})
+
 // Create
 app.post("/products", (req, res) => {
     Product.create(req.body, (error, createdProduct) => {
@@ -52,12 +62,11 @@ app.get("/products/:id", (req, res) => {
     })
   })
 
-  // Database Connection
+// Database Connection
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-
 
 // Database Connection Error/Success
 // Define callback functions for various events
