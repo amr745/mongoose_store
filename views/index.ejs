@@ -8,13 +8,16 @@
 </head>
 <body>
     <nav>
-        <a href="/products/new">Add a New Product </a>
+        <a href="/products/new">Add New Product </a>
     </nav>
-    <h1>Product List</h1>
-    <ul>
+    <h1>Our Products</h1>
         <% products.forEach(product => { %>
-        <li><%=product.name; %></li>
-    <% }) %>
-    </ul>
+            <div class="productsList">
+                <%=product.name %>
+                <a href="/products/<%=product._id; %>">
+                    <img class="image" src="<%=product.img %>" alt=<%=product.name %>>
+                </a>
+            </div>
+        <% }) %>
 </body>
 </html>

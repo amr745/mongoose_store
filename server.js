@@ -1,21 +1,27 @@
 // Dependencies
 const express = require("express")
-const Product = require("./models/product.js")
+const mongoose = require("mongoose")
+const Product = require("./models/product")
 const app = express()
 require("dotenv").config()
-const mongoose = require("mongoose")
 
 // Middleware
 // Body parser middleware: give us access to req.body
 app.use(express.urlencoded({ extended: true }))
 
-// Database Connection
-mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+// Routes / Controllers
+// Seed
+const productSeed = require("./models/productSeed.js")
+ 
+app.get("/products/seed", (req, res) => {
+    Product.deleteMany({}, (error, allBooks) => {
+    })
+
+    Product.create(productSeed, (error, data) => {
+        res.redirect("/products")
+    })
 })
 
-// Routes / Controllers
 // Index
 app.get("/products", (req, res) => {
     Product.find({}, (error, allProducts) => {
@@ -32,17 +38,26 @@ app.get("/products/new", (req, res) => {
 
 // Create
 app.post("/products", (req, res) => {
-    // if (req.body.completed === "on") {
-    //     //if checked, req.body.completed is set to 'on'
-    //     req.body.completed = true
-    //   } else {
-    //     //if not checked, req.body.completed is undefined
-    //     req.body.completed = false
-    //   }
     Product.create(req.body, (error, createdProduct) => {
         res.redirect("/products")
     })
 })
+
+/// Show
+app.get("/products/:id", (req, res) => {
+    Product.findById(req.params.id, (err, foundProduct) => {
+      res.render("show.ejs", {
+        product: foundProduct,
+      })
+    })
+  })
+
+  // Database Connection
+mongoose.connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+
 
 // Database Connection Error/Success
 // Define callback functions for various events
