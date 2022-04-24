@@ -46,10 +46,33 @@ app.delete("/products/:id", (req, res) => {
     })
 })
 
+// Update
+app.put("/products/:id", (req, res) => {
+    Product.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+          new: true,
+        },
+        (error, updatedProduct) => {
+          res.redirect(`/products/${req.params.id}`)
+        }
+    )
+})
+
 // Create
 app.post("/products", (req, res) => {
     Product.create(req.body, (error, createdProduct) => {
         res.redirect("/products")
+    })
+})
+
+// Edit
+app.get("/products/:id/edit", (req, res) => {
+    Product.findById(req.params.id, (error, foundProduct) => {
+      res.render("edit.ejs", {
+        product: foundProduct,
+        })
     })
 })
 
