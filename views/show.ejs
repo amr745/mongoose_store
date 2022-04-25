@@ -13,9 +13,16 @@
     <h1><%=product.name %></h1>
     <img src="<%=product.img %>" alt="<%=product.name %> Image"><br />
     Description: <%=product.description %><br />
-    Price: <%=product.price %><br />
-    Qty: <%=product.qty %><br />
-    <!-- <a href="/products/<%=product._id %>"> <%=product.name %></a> -->
+    Price: $<%=product.price %><br />
+    Qty: <span id="thisone"><%=product.qty %></span><br />
+    <form action="/products/buy/<%=product._id%>?_method=PUT" method="POST">
+        <% if (product.qty > 0) { %>
+            <input type="number" name="qty" value="1">
+            <input type="submit" value="BUY">
+            <% } else if (product.qty <= 0) { %>
+                <h2>Out of stock!</h2>
+            <% } %>
+    </form>
     <form action="/products/<%= product.id %>?_method=DELETE" method="POST">
         <input type="submit" value="DELETE" />
     </form>

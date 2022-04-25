@@ -5,15 +5,15 @@ const Product = require("../models/product")
 
 // Routes / Controllers
 // Seed
-const productSeed = require("../models/productSeed.js")
-productRouter.get("/products/seed", (req, res) => {
-    Product.deleteMany({}, (error, allBooks) => {
-    })
+// const productSeed = require("../models/productSeed")
+// productRouter.get("/seed", (req, res) => {
+//     Product.deleteMany({}, (error, allBooks) => {
+//     })
 
-    Product.create(productSeed, (error, data) => {
-        res.redirect("/products")
-    })
-})
+//     Product.create(productSeed, (error, data) => {
+//         res.redirect("/products")
+//     })
+// })
 
 // Index
 productRouter.get("/", (req, res) => {
@@ -49,6 +49,21 @@ productRouter.put("/:id", (req, res) => {
         }
     )
 })
+//Buy
+productRouter.put("/buy/:id", (req, res) => {
+    Product.findById(req.params.id, (err, boughtProduct) => {
+        let productQty = boughtProduct.qty;
+        let updatedQty = productQty - req.body.qty;
+        req.body.qty = updatedQty;
+    Product.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        (err, updatedProduct) => {
+            if (err) return res.send(err);
+            res.redirect(`/products/${req.params.id}`);
+        })
+    })
+});
 
 // Create
 productRouter.post("/", (req, res) => {
