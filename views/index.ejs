@@ -5,19 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product List</title>
+
+    <link rel="stylesheet" href="/style1.css">
 </head>
 <body>
-    <nav>
-        <a href="/products/new">Add New Product </a>
-    </nav>
-    <h1>Our Products</h1>
-        <% products.forEach(product => { %>
-            <div class="productsList">
-                <%=product.name %>
+    <!-- <div class="centered-container"> -->
+        <div class="header">
+            <nav>
+            <h1>Our Products</h1>
+            <!-- <nav> -->
+                <a href="/products/new">Add New Product </a>
+            </nav>
+        </div>
+    <!-- </div> -->
+    <div class="productsList"></div>
+    <% products.forEach(product => { %>
+        <span class="names"><%=product.name %></span>
+                <!-- <div class="image-container"> -->
                 <a href="/products/<%=product._id; %>">
                     <img class="image" src="<%=product.img %>" alt=<%=product.name %>>
                 </a>
             </div>
         <% }) %>
+    </div>
 </body>
 </html>

@@ -5,15 +5,15 @@ const Product = require("../models/product")
 
 // Routes / Controllers
 // Seed
-// const productSeed = require("../models/productSeed")
-// productRouter.get("/seed", (req, res) => {
-//     Product.deleteMany({}, (error, allBooks) => {
-//     })
+const productSeed = require("../models/productSeed")
+productRouter.get("/seed", (req, res) => {
+    Product.deleteMany({}, (error, allBooks) => {
+    })
 
-//     Product.create(productSeed, (error, data) => {
-//         res.redirect("/products")
-//     })
-// })
+    Product.create(productSeed, (error, data) => {
+        res.redirect("/products")
+    })
+})
 
 // Index
 productRouter.get("/", (req, res) => {

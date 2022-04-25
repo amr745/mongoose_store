@@ -9,6 +9,7 @@ require("dotenv").config()
 // Body parser middleware: give us access to req.body
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride("_method"))
+app.use(express.static("public"));
 
 // Routes / Controllers
 const productsController = require("./controllers/products")
@@ -18,7 +19,7 @@ app.use("/products", productsController)
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
+})
 
 // Database Connection Error/Success
 // Define callback functions for various events
